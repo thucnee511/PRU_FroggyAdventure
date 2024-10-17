@@ -11,16 +11,33 @@ public class UserScore{
         Score = score;
     }
     public static List<UserScore> GetScores(){
-        using FileStream file = File.Open("Assets/Resources/scores.xml", FileMode.Open);
-        var xs = new XmlSerializer(typeof(List<UserScore>));
-        return (List<UserScore>)xs.Deserialize(file);
+        try
+        {
+            using FileStream file = File.Open("scores.xml", FileMode.Open);
+            var xs = new XmlSerializer(typeof(List<UserScore>));
+            return (List<UserScore>)xs.Deserialize(file);
+        }
+        catch
+        {
+            return new List<UserScore>();
+        }
+        
     }
 
     public static void SaveScores(List<UserScore> scores){
-        using FileStream file = File.Open("Assets/Resources/scores.xml", FileMode.Create);
-        //remove all old scores
-        file.SetLength(0);
-        var xs = new XmlSerializer(typeof(List<UserScore>));
-        xs.Serialize(file, scores);
+        try
+        {
+            using FileStream file = File.Open("scores.xml", FileMode.Create);
+            file.SetLength(0);
+            var xs = new XmlSerializer(typeof(List<UserScore>));
+            xs.Serialize(file, scores);
+        }catch(FileNotFoundException ex)
+        {
+            using FileStream file = File.Create("scores.xml");
+            file.SetLength(0);
+            var xs = new XmlSerializer(typeof(List<UserScore>));
+            xs.Serialize(file, scores);
+        }
+        
     }
 }
