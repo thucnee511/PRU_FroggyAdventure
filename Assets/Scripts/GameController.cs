@@ -23,13 +23,14 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    private void SpawnBear(){
+    private void SpawnBear()
+    {
         foreach (var bearPos in bearPosition)
         {
-            GameObject bear = Instantiate(Resources.Load("Prefabs/Bear"),new Vector3(bearPos.posX,bearPos.posY, 0), Quaternion.identity) as GameObject;
+            GameObject bear = Instantiate(Resources.Load("Prefabs/Bear"), new Vector3(bearPos.posX, bearPos.posY, 0), Quaternion.identity) as GameObject;
             bear.GetComponent<BearScript>().startX = bearPos.posX - 10;
             bear.GetComponent<BearScript>().endX = bearPos.posX + 10;
             bear.GetComponent<BearScript>().Player = player;
@@ -37,7 +38,8 @@ public class GameController : MonoBehaviour
     }
 }
 
-class BearPosition{
+class BearPosition
+{
     public float posX;
     public float posY;
 }

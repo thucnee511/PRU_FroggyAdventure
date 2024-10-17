@@ -6,14 +6,14 @@ public class BearScript : MonoBehaviour
 {
     private bool isAlive = true;
     private bool facingRight = true;
-    public float startX{get;set;}
-    public float endX{get; set;}
+    public float startX { get; set; }
+    public float endX { get; set; }
 
     public GameObject Player { get; set; }
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -23,13 +23,17 @@ public class BearScript : MonoBehaviour
         TracePlayer();
     }
 
-    private void Movement(){
-        if(isAlive){
+    private void Movement()
+    {
+        if (isAlive)
+        {
             var bearPosition = transform.position.x;
-            if(bearPosition < startX){
+            if (bearPosition < startX)
+            {
                 facingRight = true;
             }
-            if(bearPosition > endX){
+            if (bearPosition > endX)
+            {
                 facingRight = false;
             }
             if (!facingRight)
@@ -45,25 +49,32 @@ public class BearScript : MonoBehaviour
         }
     }
 
-    private void TracePlayer(){
-        if(Player != null){
+    private void TracePlayer()
+    {
+        if (Player != null)
+        {
             var playerX = Player.transform.position.x;
-            if(playerX >= startX && playerX <= endX){
-                if(playerX > transform.position.x){
+            if (playerX >= startX && playerX <= endX)
+            {
+                if (playerX > transform.position.x)
+                {
                     facingRight = true;
                 }
-                if(playerX < transform.position.x){
+                if (playerX < transform.position.x)
+                {
                     facingRight = false;
                 }
             }
         }
     }
 
-    public void DestroyBear(){
+    public void DestroyBear()
+    {
         Destroy(gameObject);
     }
 
-    public void SetBearDead(){
+    public void SetBearDead()
+    {
         isAlive = false;
         GetComponent<Animator>().SetTrigger("Dead");
     }

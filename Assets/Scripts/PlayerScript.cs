@@ -7,18 +7,18 @@ public class PlayerScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private bool facingRight = true;
-    public new GameObject camera ;
+    public new GameObject camera;
     public GameObject tutorialScreen;
     private Rigidbody2D rb;
     private Animator anim;
     public AudioSource audioSource;
     public TMP_Text scoreText;
     public TMP_Text healthText;
-    public int score{get; set;}
+    public int score { get; set; }
     private int health = 100;
     private float saveX, saveY;
     void Start()
-    {   
+    {
         score = 0;
         saveX = -25;
         saveY = 10;
@@ -39,24 +39,29 @@ public class PlayerScript : MonoBehaviour
         CheckHealth();
     }
     private bool isDead = false;
-    private void CheckHealth(){
-        if(health <= 0){
+    private void CheckHealth()
+    {
+        if (health <= 0)
+        {
             anim.SetBool("isDisappear", true);
             isDead = true;
-        }    
+        }
     }
 
-    private void updateUI(){
+    private void updateUI()
+    {
         scoreText.text = GetPoint();
         healthText.text = GetHealth();
     }
-    private string GetPoint(){
+    private string GetPoint()
+    {
         string _point = "00000000";
         string _score = score.ToString();
         int _length = _score.Length;
         return _point.Substring(0, _point.Length - _length) + _score;
     }
-    private string GetHealth(){
+    private string GetHealth()
+    {
         string _health = "000";
         return _health.Substring(0, _health.Length - health.ToString().Length) + health.ToString();
     }
@@ -136,23 +141,28 @@ public class PlayerScript : MonoBehaviour
         {
             houseDoor = collision.gameObject;
         }
-        if (collision.gameObject.CompareTag("Gem")){
+        if (collision.gameObject.CompareTag("Gem"))
+        {
             score += 1000;
             audioSource.Play();
             collision.gameObject.GetComponent<ItemScript>().SetCollectTrigger();
         }
-        if (collision.gameObject.CompareTag("BearLeft") || collision.gameObject.CompareTag("BearRight")){
+        if (collision.gameObject.CompareTag("BearLeft") || collision.gameObject.CompareTag("BearRight"))
+        {
             health -= 10;
-            if (health <= 0){
+            if (health <= 0)
+            {
                 health = 0;
             }
             //knockback
-            if (transform.position.x < collision.gameObject.transform.position.x){
+            if (transform.position.x < collision.gameObject.transform.position.x)
+            {
                 rb.AddForce(new Vector2(-100, 100));
             }
             anim.SetTrigger("Hit");
         }
-        if (collision.gameObject.CompareTag("EndPoint")){
+        if (collision.gameObject.CompareTag("EndPoint"))
+        {
             collision.gameObject.GetComponent<EndPoint>().Checkpoint();
         }
         if (collision.gameObject.CompareTag("BearTop"))
@@ -171,14 +181,18 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision){
-        if(collision.gameObject.CompareTag("HouseDoor") && Input.GetKey(KeyCode.E)){
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("HouseDoor") && Input.GetKey(KeyCode.E))
+        {
             anim.SetBool("isDisappear", true);
         }
     }
 
-    public void Respawn(){
-        if(isDead){
+    public void Respawn()
+    {
+        if (isDead)
+        {
             transform.position = new Vector3(saveX, saveY, transform.position.z);
             anim.SetBool("isDisappear", false);
             health = 100;
@@ -186,8 +200,10 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void Teleport(){
-        if(houseDoor != null){
+    public void Teleport()
+    {
+        if (houseDoor != null)
+        {
             transform.position = houseDoor.GetComponent<TeleportScript>().GetTarget().position;
         }
         tutorialScreen.SetActive(false);
