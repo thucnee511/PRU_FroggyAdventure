@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     private bool facingRight = true;
     public new GameObject camera ;
+    public GameObject tutorialScreen;
     private Rigidbody2D rb;
     private Animator anim;
     public AudioSource audioSource;
@@ -154,6 +155,12 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("EndPoint")){
             collision.gameObject.GetComponent<EndPoint>().Checkpoint();
         }
+        if (collision.gameObject.CompareTag("BearTop"))
+        {
+            score += 5000;
+            if (health < 100) health += 10;
+            collision.gameObject.GetComponentInParent<BearScript>().SetBearDead();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -175,6 +182,7 @@ public class PlayerScript : MonoBehaviour
             transform.position = new Vector3(saveX, saveY, transform.position.z);
             anim.SetBool("isDisappear", false);
             health = 100;
+            score -= 1000;
         }
     }
 
@@ -182,6 +190,7 @@ public class PlayerScript : MonoBehaviour
         if(houseDoor != null){
             transform.position = houseDoor.GetComponent<TeleportScript>().GetTarget().position;
         }
+        tutorialScreen.SetActive(false);
         camera.GetComponent<CameraScript>().startX = -18.6f;
         camera.GetComponent<CameraScript>().startY = 13.4f;
         camera.GetComponent<CameraScript>().endX = 63.2f;
