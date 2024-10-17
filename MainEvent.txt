@@ -117,6 +117,28 @@ public void Teleport()
         anim.SetBool("isDisappear", false);
     }
 
+# Display Health and Score On UI
+
+private void updateUI()
+    {
+        scoreText.text = GetPoint();
+        healthText.text = GetHealth();
+    }
+
+private string GetPoint()
+    {
+        string _point = "00000000";
+        string _score = score.ToString();
+        int _length = _score.Length;
+        return _point.Substring(0, _point.Length - _length) + _score;
+    }
+
+private string GetHealth()
+    {
+        string _health = "000";
+        return _health.Substring(0, _health.Length - health.ToString().Length) + health.ToString();
+    }
+
 # Death And Respawn
 
 public void Respawn()
