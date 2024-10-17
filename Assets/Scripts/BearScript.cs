@@ -9,6 +9,7 @@ public class BearScript : MonoBehaviour
     public float startX { get; set; }
     public float endX { get; set; }
 
+    private float speed = 1.5f;
     public GameObject Player { get; set; }
     // Start is called before the first frame update
     void Start()
@@ -39,12 +40,12 @@ public class BearScript : MonoBehaviour
             if (!facingRight)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
-                transform.position += new Vector3(-1, 0, 0) * Time.deltaTime * 1.5f;
+                transform.position += new Vector3(-1, 0, 0) * Time.deltaTime * speed;
             }
             else
             {
                 transform.localScale = new Vector3(1, 1, 1);
-                transform.position += new Vector3(1, 0, 0) * Time.deltaTime * 1.5f;
+                transform.position += new Vector3(1, 0, 0) * Time.deltaTime * speed;
             }
         }
     }
@@ -56,6 +57,7 @@ public class BearScript : MonoBehaviour
             var playerX = Player.transform.position.x;
             if (playerX >= startX && playerX <= endX)
             {
+                speed = 3f;
                 if (playerX > transform.position.x)
                 {
                     facingRight = true;
@@ -64,6 +66,10 @@ public class BearScript : MonoBehaviour
                 {
                     facingRight = false;
                 }
+            }
+            else
+            {
+                speed = 1.5f;
             }
         }
     }
